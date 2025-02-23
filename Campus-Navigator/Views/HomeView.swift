@@ -5,22 +5,16 @@
 //  Created by Nadeesh Hirushan on 2025-02-23.
 //
 
-//
-//  HomeView.swift
-//  Campus-Navigator
-//
-//  Created by Nadeesh Hirushan on 2025-02-23.
-//
-
 import SwiftUI
 
 struct HomeView: View {
     @State private var searchText = ""
     @State private var selectedCategory = "Cafeterias"
     @State private var selectedTab = 0
-    
+    @State private var showFilterSheet = false // ✅ State for filter bottom sheet
+
     let categories = ["Cafeterias", "Labs", "Lecture Halls", "Libraries", "Offices"]
-    
+
     let cafeterias = [
         Item(name: "Main Cafeteria", floor: "Ground Floor", image: "main_cafeteria"),
         Item(name: "Student Café", floor: "2nd floor", image: "student_cafe"),
@@ -109,7 +103,7 @@ struct HomeView: View {
                         }
                     }
                     Spacer()
-                    
+
                     // Profile Image
                     Image("profile_pic")
                         .resizable()
@@ -118,11 +112,9 @@ struct HomeView: View {
                         .clipShape(Circle())
                 }
                 .padding(.horizontal)
-                
-                // Search Bar - Matches UI Design
+
+                // Search Bar
                 HStack(spacing: 10) {
-                    
-                    // Search Bar
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
@@ -133,7 +125,7 @@ struct HomeView: View {
                             .foregroundColor(.black)
                     }
                     .padding()
-                    .frame(height: 50) // Ensure same height as Filter Button
+                    .frame(height: 50)
                     .background(
                         RoundedRectangle(cornerRadius: 25)
                             .fill(Color.white)
@@ -146,11 +138,11 @@ struct HomeView: View {
 
                     // Filter Button (Same Height)
                     Button(action: {
-                        // Filter action
+                        showFilterSheet.toggle() // ✅ Opens Bottom Sheet
                     }) {
                         Image(systemName: "slider.horizontal.3")
                             .foregroundColor(.white)
-                            .frame(width: 50, height: 50) // Ensuring same height as search bar
+                            .frame(width: 50, height: 50)
                             .background(
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(Color.blue)
@@ -159,8 +151,6 @@ struct HomeView: View {
                     }
                 }
                 .padding(.horizontal)
-
-
 
                 // Category Buttons
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -184,16 +174,7 @@ struct HomeView: View {
                     .padding(.horizontal)
                 }
 
-                // Section Title
-                HStack {
-                    Text(selectedCategory)
-                        .font(.title3)
-                        .fontWeight(.bold)
-                    Spacer()
-                }
-                .padding(.horizontal)
-
-                // Grid of Items (Navigating to Respective Views)
+                // Grid of Items
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 15) {
                         ForEach(currentItems) { item in
@@ -209,8 +190,12 @@ struct HomeView: View {
                 BottomNavigationBar(selectedTab: $selectedTab)
             }
             .edgesIgnoringSafeArea(.bottom)
+            .sheet(isPresented: $showFilterSheet) {
+                FilterView()
+            }
         }
     }
+
 
     // Function to return the correct detail view for each category
     @ViewBuilder
