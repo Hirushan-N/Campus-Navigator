@@ -119,28 +119,48 @@ struct HomeView: View {
                 }
                 .padding(.horizontal)
                 
-                // Search Bar
-                HStack {
+                // Search Bar - Matches UI Design
+                HStack(spacing: 10) {
+                    
+                    // Search Bar
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
+                        
                         TextField("Search by name, type...", text: $searchText)
                             .textFieldStyle(PlainTextFieldStyle())
+                            .font(.system(size: 16))
+                            .foregroundColor(.black)
                     }
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 15).stroke(Color.gray.opacity(0.5), lineWidth: 1))
+                    .frame(height: 50) // Ensure same height as Filter Button
+                    .background(
+                        RoundedRectangle(cornerRadius: 25)
+                            .fill(Color.white)
+                            .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                    )
 
-                    // Filter Button
+                    // Filter Button (Same Height)
                     Button(action: {
                         // Filter action
                     }) {
                         Image(systemName: "slider.horizontal.3")
                             .foregroundColor(.white)
-                            .padding()
-                            .background(Circle().fill(Color.blue))
+                            .frame(width: 50, height: 50) // Ensuring same height as search bar
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color.blue)
+                            )
+                            .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
                     }
                 }
                 .padding(.horizontal)
+
+
 
                 // Category Buttons
                 ScrollView(.horizontal, showsIndicators: false) {
