@@ -10,16 +10,25 @@ import SwiftUI
 struct LabDetailsView: View {
     let name: String
     let floor: String
-    
+    @State private var selectedTab = 0
+
     var body: some View {
         VStack {
-            Text(name)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            Text("Location: \(floor)")
-                .font(.title3)
+            VStack(spacing: 10) {
+                Text(name)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                Text("Location: \(floor)")
+                    .font(.title3)
+            }
+            .padding()
+            
+            Spacer()
+            
+            BottomNavigationBar(selectedTab: $selectedTab)
         }
         .navigationTitle("Lab Details")
-        .padding()
+        .edgesIgnoringSafeArea(.bottom)
     }
 }

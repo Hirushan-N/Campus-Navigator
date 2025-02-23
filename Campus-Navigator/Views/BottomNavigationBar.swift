@@ -9,15 +9,20 @@ import SwiftUI
 
 struct BottomNavigationBar: View {
     @Binding var selectedTab: Int
-    
+    @State private var navigateToHome = false
+
     let icons = ["house.fill", "paperplane.fill", "speaker.wave.2.fill", "person.fill"]
-    
+
     var body: some View {
         HStack {
             ForEach(0..<icons.count, id: \.self) { index in
                 Spacer()
                 BottomNavItem(icon: icons[index], isSelected: selectedTab == index)
                     .onTapGesture {
+                        if index == 0 && selectedTab != 0 {
+                            // Only navigate if not already in Home
+                            navigateToHome = true
+                        }
                         selectedTab = index
                     }
                 Spacer()
@@ -25,6 +30,12 @@ struct BottomNavigationBar: View {
         }
         .padding()
         .background(Color.white.shadow(radius: 2))
+        .background(
+            NavigationLink(destination: HomeView(), isActive: $navigateToHome) {
+                EmptyView()
+            }
+            .hidden()
+        )
     }
 }
 
