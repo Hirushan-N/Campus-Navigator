@@ -10,6 +10,7 @@ import SwiftUI
 struct BottomNavigationBar: View {
     @Binding var selectedTab: Int
     @State private var navigateToHome = false
+    @State private var navigateToAnnouncements = false
 
     let icons = ["house.fill", "paperplane.fill", "speaker.wave.2.fill", "person.fill"]
 
@@ -20,8 +21,10 @@ struct BottomNavigationBar: View {
                 BottomNavItem(icon: icons[index], isSelected: selectedTab == index)
                     .onTapGesture {
                         if index == 0 && selectedTab != 0 {
-                            // Only navigate if not already in Home
                             navigateToHome = true
+                        }
+                        if index == 2 { // Announcement tab
+                            navigateToAnnouncements = true
                         }
                         selectedTab = index
                     }
@@ -31,13 +34,21 @@ struct BottomNavigationBar: View {
         .padding()
         .background(Color.white.shadow(radius: 2))
         .background(
-            NavigationLink(destination: HomeView(), isActive: $navigateToHome) {
-                EmptyView()
+            Group {
+                NavigationLink(destination: HomeView(), isActive: $navigateToHome) {
+                    EmptyView()
+                }
+                .hidden()
+
+                NavigationLink(destination: AnnouncementView(), isActive: $navigateToAnnouncements) {
+                    EmptyView()
+                }
+                .hidden()
             }
-            .hidden()
         )
     }
 }
+
 
 // MARK: - Bottom Navigation Item
 struct BottomNavItem: View {

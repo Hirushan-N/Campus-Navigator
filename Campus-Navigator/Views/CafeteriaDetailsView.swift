@@ -3,6 +3,7 @@
 //  Campus-Navigator
 //
 //  Created by Nadeesh Hirushan on 2025-02-23.
+//  Modified by Binusha Samod on 2025-02-25.
 //
 
 import SwiftUI
@@ -235,9 +236,13 @@ struct DishCard: View {
                 }
             }
             
+            Spacer()
+            
             Text(dish.price)
                 .font(.subheadline)
                 .foregroundColor(.gray)
+            
+            Spacer()
             
             HStack {
                 Button(action: { cart[dish.id, default: 0] -= 1 }) {
@@ -251,20 +256,26 @@ struct DishCard: View {
                 }
             }
             
-            Button(action: {}) {
+            Spacer()
+            
+            Button(action: {
+                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+            }) {
                 HStack {
                     Text("Add to Cart")
                         .font(.subheadline)
                         .bold()
-                    
-                    Image(systemName: "cart.fill")
+
+                    Image(systemName: "arrow.right.circle.fill")
+                        .font(.headline)
                 }
-                .frame(maxWidth: .infinity)
-                .padding()
+                .frame(maxWidth: .infinity, minHeight: 36) // Reduced height
+                .padding(.horizontal)
                 .background(Color.blue)
                 .foregroundColor(.white)
-                .cornerRadius(10)
+                .cornerRadius(20) // Slightly adjusted for a more compact look
             }
+            .shadow(radius: 3)
         }
         .padding().background(Color.white).cornerRadius(15).shadow(radius: 4)
     }
