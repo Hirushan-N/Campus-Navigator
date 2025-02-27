@@ -43,17 +43,16 @@ struct OfficeDetailsView: View {
             // Header Section
             HStack {
                 Text(name)
-                    .font(.title)
+                    .font(.title2)
                     .fontWeight(.bold)
                 
                 Spacer()
                 
                 Button(action: {
-                    // Navigate Action
                 }) {
                     VStack {
                         Image(systemName: "location.fill")
-                            .font(.title)
+                            .font(.title2)
                             .foregroundColor(.blue)
                         Text("Navigate")
                             .font(.caption)
@@ -62,9 +61,37 @@ struct OfficeDetailsView: View {
                 }
             }
             .padding(.horizontal)
+            .padding(.top, 10)
 
+            HStack {
+                ForEach(weekdays, id: \.self) { day in
+                    Button(action: {
+                        selectedDay = day
+                    }) {
+                        Text(day)
+                            .font(.caption)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(selectedDay == day ? Color.blue : Color.gray.opacity(0.2))
+                            .cornerRadius(6)
+                            .foregroundColor(selectedDay == day ? .white : .black)
+                    }
+                }
+
+                Spacer()
+
+                Text(dayDetails[selectedDay]?.1 == true ? "OPEN" : "CLOSED")
+                    .font(.caption)
+                    .bold()
+                    .padding(6)
+                    .background(dayDetails[selectedDay]?.1 == true ? Color.green : Color.red)
+                    .cornerRadius(6)
+                    .foregroundColor(.white)
+            }
+            .padding(.horizontal)
+            
             VStack(alignment: .leading, spacing: 6) {
-                Text("Low")
+                Text("Crowd Level")
                     .font(.footnote)
                     .fontWeight(.semibold)
                     .foregroundColor(.blue)
@@ -96,6 +123,7 @@ struct OfficeDetailsView: View {
                                 .foregroundColor(isThumbsUpSelected ? .blue : .gray)
                             Text("\(thumbsUpCount)")
                         }
+                        .padding(.horizontal)
                     }
 
                     Button(action: {
@@ -113,52 +141,26 @@ struct OfficeDetailsView: View {
                                 .foregroundColor(isThumbsDownSelected ? .red : .gray)
                             Text("\(thumbsDownCount)")
                         }
+                        .padding(.horizontal)
                     }
                 }
-            }
-            .padding(.horizontal)
-            
-            Spacer()
-            Spacer()
-            Spacer()
-
-            
-            HStack {
-                ForEach(weekdays, id: \.self) { day in
-                    Button(action: {
-                        selectedDay = day
-                    }) {
-                        Text(day)
-                            .font(.caption)
-                            .padding(6)
-                            .background(selectedDay == day ? Color.blue : Color.gray.opacity(0.2))
-                            .cornerRadius(6)
-                            .foregroundColor(selectedDay == day ? .white : .black)
-                    }
-                }
-
-                Spacer()
-
-                Text(dayDetails[selectedDay]?.1 == true ? "OPEN" : "CLOSED")
-                    .font(.caption)
-                    .bold()
-                    .padding(6)
-                    .background(dayDetails[selectedDay]?.1 == true ? Color.green : Color.red)
-                    .cornerRadius(6)
-                    .foregroundColor(.white)
             }
             .padding(.horizontal)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
-                    // Office Information Section
+                    
                     VStack(alignment: .leading, spacing: 8) {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("**Operating Hours:**")
                             Text(dayDetails[selectedDay]?.0 ?? "Closed")
-
+                                .font(.subheadline)
+                                .foregroundColor(.black)
+                            
                             Text("**Location:**")
                             Text("\(floor)")
+                                .font(.subheadline)
+                                .foregroundColor(.black)
 
                             Text("**Services Offered:**")
                             ForEach(services, id: \.self) { service in
@@ -168,6 +170,7 @@ struct OfficeDetailsView: View {
                                         .frame(width: 6, height: 6)
                                         .foregroundColor(.blue)
                                     Text(service)
+                                        .font(.subheadline)
                                 }
                             }
 
@@ -177,20 +180,20 @@ struct OfficeDetailsView: View {
 
                             The university has designed the Student Affairs Office to be a one-stop support center where students can get assistance with everything from course registration and student ID issuance to scholarship applications and extracurricular activities. The office also serves as a place where students can voice concerns, seek counseling, and get information about university policies and student rights.
                             """)
+                            .font(.subheadline)
+                            .foregroundColor(.black)
                         }
-                        .font(.subheadline)
                         .padding()
-                        .background(Color.blue.opacity(0.1))
+                        .background(Color(.systemGray6))
                         .cornerRadius(10)
                     }
                     .padding(.horizontal)
-         
                 }
             }
 
-            // Bottom Navigation Bar
             BottomNavigationBar(selectedTab: $selectedTab)
         }
+        .background(Color(.systemBackground))
         .edgesIgnoringSafeArea(.bottom)
     }
 }

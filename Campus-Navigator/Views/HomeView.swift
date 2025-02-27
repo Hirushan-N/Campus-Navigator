@@ -11,100 +11,65 @@ struct HomeView: View {
     @State private var searchText = ""
     @State private var selectedCategory = "Cafeterias"
     @State private var selectedTab = 0
-    @State private var showFilterSheet = false // ✅ State for filter bottom sheet
-
+    @State private var showFilterSheet = false
+    
     let categories = ["Cafeterias", "Labs", "Lecture Halls", "Libraries", "Offices"]
-
-    let cafeterias = [
-        Item(name: "Main Cafeteria", floor: "Ground Floor", image: "main_cafeteria"),
-        Item(name: "Student Café", floor: "2nd floor", image: "student_cafe"),
-        Item(name: "Coffee Corner", floor: "1st floor", image: "coffee_corner"),
-        Item(name: "Snack Bar", floor: "Ground Floor", image: "snack_bar"),
-        Item(name: "Healthy Bites", floor: "1st floor", image: "healthy_bites"),
-        Item(name: "Quick Meals", floor: "3rd floor", image: "quick_meals")
+    
+    let categoryItems: [String: [Item]] = [
+        "Cafeterias": [
+            Item(name: "Main Cafeteria", floor: "Ground Floor", image: "main_cafeteria"),
+            Item(name: "Student Café", floor: "2nd floor", image: "student_cafe"),
+            Item(name: "Coffee Corner", floor: "1st floor", image: "coffee_corner"),
+            Item(name: "Snack Bar", floor: "Ground Floor", image: "snack_bar"),
+            Item(name: "Healthy Bites", floor: "1st floor", image: "healthy_bites"),
+            Item(name: "Quick Meals", floor: "3rd floor", image: "quick_meals")
+        ],
+        "Labs": [
+            Item(name: "Networking Lab", floor: "4th floor", image: "networking_lab"),
+            Item(name: "iOS Lab", floor: "3rd floor", image: "ios_lab"),
+            Item(name: "Web Design Lab", floor: "4th floor", image: "web_design_lab")
+        ],
+        "Lecture Halls": [
+            Item(name: "Hall A", floor: "1st floor", image: "hall_a"),
+            Item(name: "Hall B", floor: "2nd floor", image: "hall_b"),
+            Item(name: "Hall C", floor: "3rd floor", image: "hall_c")
+        ],
+        "Libraries": [
+            Item(name: "Main Library", floor: "1st floor", image: "main_library"),
+            Item(name: "Reading Room", floor: "2nd floor", image: "reading_room")
+        ],
+        "Offices": [
+            Item(name: "Admin Office", floor: "1st floor", image: "admin_office"),
+            Item(name: "Student Affairs", floor: "2nd floor", image: "student_affairs")
+        ]
     ]
     
-    let labs = [
-        Item(name: "Networking Lab", floor: "4th floor", image: "networking_lab"),
-        Item(name: "iOS Lab", floor: "3rd floor", image: "ios_lab"),
-        Item(name: "Web Design Lab", floor: "4th floor", image: "web_design_lab"),
-        Item(name: "Research Lab", floor: "3rd floor", image: "research_lab"),
-        Item(name: "AI Lab", floor: "5th floor", image: "ai_lab"),
-        Item(name: "Cybersecurity Lab", floor: "2nd floor", image: "cybersecurity_lab"),
-        Item(name: "Robotics Lab", floor: "1st floor", image: "robotics_lab")
-    ]
-    
-    let lectureHalls = [
-        Item(name: "Hall A", floor: "1st floor", image: "hall_a"),
-        Item(name: "Hall B", floor: "2nd floor", image: "hall_b"),
-        Item(name: "Hall C", floor: "3rd floor", image: "hall_c"),
-        Item(name: "Main Auditorium", floor: "Ground Floor", image: "auditorium"),
-        Item(name: "Lecture Hall D", floor: "4th floor", image: "lecture_hall_d"),
-        Item(name: "Lecture Hall E", floor: "5th floor", image: "lecture_hall_e"),
-        Item(name: "Seminar Room", floor: "6th floor", image: "seminar_room")
-    ]
-    
-    let libraries = [
-        Item(name: "Main Library", floor: "1st floor", image: "main_library"),
-        Item(name: "Reading Room", floor: "2nd floor", image: "reading_room"),
-        Item(name: "Reference Section", floor: "3rd floor", image: "reference_section"),
-        Item(name: "Study Lounge", floor: "Ground Floor", image: "study_lounge"),
-        Item(name: "Digital Library", floor: "5th floor", image: "digital_library"),
-        Item(name: "Historical Archives", floor: "3rd floor", image: "historical_archives")
-    ]
-    
-    let offices = [
-        Item(name: "Admin Office", floor: "1st floor", image: "admin_office"),
-        Item(name: "Student Affairs", floor: "2nd floor", image: "student_affairs"),
-        Item(name: "Finance Office", floor: "3rd floor", image: "finance_office"),
-        Item(name: "IT Support", floor: "Ground Floor", image: "it_support"),
-        Item(name: "Human Resources", floor: "2nd floor", image: "hr_office"),
-        Item(name: "Admissions Office", floor: "1st floor", image: "admissions_office"),
-        Item(name: "Registrar’s Office", floor: "3rd floor", image: "registrar_office")
-    ]
-
     var currentItems: [Item] {
-        let items = getCategoryItems(for: selectedCategory)
+        let items = categoryItems[selectedCategory] ?? []
         return items.filter { searchText.isEmpty || $0.name.localizedCaseInsensitiveContains(searchText) }
-    }
-
-    func getCategoryItems(for category: String) -> [Item] {
-        switch category {
-        case "Labs":
-            return labs
-        case "Lecture Halls":
-            return lectureHalls
-        case "Libraries":
-            return libraries
-        case "Offices":
-            return offices
-        default:
-            return cafeterias
-        }
     }
 
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: 0) {
                 // Header Section
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Welcome Hirushan!")
-                            .font(.title2)
-                            .fontWeight(.bold)
-
+                        Text("Welcome, Hirushan!")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                        
                         HStack {
                             Image(systemName: "mappin.and.ellipse")
                                 .foregroundColor(.blue)
                             Text("Ground Floor")
                                 .font(.subheadline)
                                 .foregroundColor(.blue)
-                                .underline()
                         }
                     }
+                    
                     Spacer()
-
-                    // Profile Image
+                    
                     Image("profile_pic")
                         .resizable()
                         .scaledToFill()
@@ -112,47 +77,32 @@ struct HomeView: View {
                         .clipShape(Circle())
                 }
                 .padding(.horizontal)
-
-                // Search Bar
+                .padding(.top, 10)
+                
                 HStack(spacing: 10) {
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(.gray)
                         
-                        TextField("Search by name, type...", text: $searchText)
+                        TextField("Search by name...", text: $searchText)
                             .textFieldStyle(PlainTextFieldStyle())
-                            .font(.system(size: 16))
                             .foregroundColor(.black)
                     }
                     .padding()
-                    .frame(height: 50)
-                    .background(
-                        RoundedRectangle(cornerRadius: 25)
-                            .fill(Color.white)
-                            .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
-                    )
-
-                    // Filter Button (Same Height)
-                    Button(action: {
-                        showFilterSheet.toggle() // ✅ Opens Bottom Sheet
-                    }) {
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                    
+                    // Filter Button
+                    Button(action: { showFilterSheet.toggle() }) {
                         Image(systemName: "slider.horizontal.3")
                             .foregroundColor(.white)
-                            .frame(width: 50, height: 50)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.blue)
-                            )
-                            .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
+                            .frame(width: 45, height: 45)
+                            .background(Color.blue)
+                            .cornerRadius(12)
                     }
                 }
                 .padding(.horizontal)
-
-                // Category Buttons
+                
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 10) {
                         ForEach(categories, id: \.self) { category in
@@ -160,21 +110,22 @@ struct HomeView: View {
                                 selectedCategory = category
                             }) {
                                 Text(category)
+                                    .fontWeight(.medium)
                                     .padding(.horizontal, 15)
                                     .padding(.vertical, 8)
                                     .background(selectedCategory == category ? Color.blue : Color.clear)
                                     .foregroundColor(selectedCategory == category ? .white : .blue)
                                     .clipShape(Capsule())
                                     .overlay(
-                                        Capsule().stroke(Color.blue, lineWidth: 1)
+                                        Capsule().stroke(Color.blue, lineWidth: selectedCategory == category ? 0 : 1)
                                     )
                             }
                         }
                     }
                     .padding(.horizontal)
                 }
-
-                // Grid of Items
+                .padding(.vertical, 5)
+                
                 ScrollView {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 15) {
                         ForEach(currentItems) { item in
@@ -184,11 +135,12 @@ struct HomeView: View {
                         }
                     }
                     .padding(.horizontal)
+                    .padding(.top, 10)
                 }
-
-                // Bottom Navigation Bar
+                
                 BottomNavigationBar(selectedTab: $selectedTab)
             }
+            .background(Color(.systemBackground))
             .edgesIgnoringSafeArea(.bottom)
             .sheet(isPresented: $showFilterSheet) {
                 FilterView()
@@ -196,8 +148,6 @@ struct HomeView: View {
         }
     }
 
-
-    // Function to return the correct detail view for each category
     @ViewBuilder
     func getCategoryDetailView(for category: String, item: Item) -> some View {
         switch category {
@@ -215,32 +165,31 @@ struct HomeView: View {
     }
 }
 
-
 // MARK: - Item Card View
 struct ItemCardView: View {
     let item: Item
 
     var body: some View {
         VStack(alignment: .leading) {
-            Image(item.image) // Ensure images are added in Assets
+            Image(item.image)
                 .resizable()
                 .scaledToFill()
                 .frame(height: 120)
                 .cornerRadius(10)
                 .clipped()
-
+            
             Text(item.name)
                 .font(.headline)
-                .foregroundColor(.black)
-
+                .foregroundColor(.primary)
+            
             Text(item.floor)
                 .font(.subheadline)
                 .foregroundColor(.gray)
         }
         .padding()
-        .background(Color.white)
+        .background(Color(.systemBackground))
         .cornerRadius(15)
-        .shadow(color: Color.gray.opacity(0.2), radius: 4, x: 0, y: 2)
+        .shadow(color: Color.gray.opacity(0.15), radius: 3, x: 0, y: 2)
     }
 }
 
