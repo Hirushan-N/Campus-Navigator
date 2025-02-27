@@ -10,6 +10,7 @@ import SwiftUI
 struct BottomNavigationBar: View {
     @Binding var selectedTab: Int
     @State private var navigateToHome = false
+    @State private var navigateToMap = false
     @State private var navigateToAnnouncements = false
 
     let icons = ["house.fill", "paperplane.fill", "speaker.wave.2.fill", "person.fill"]
@@ -22,6 +23,9 @@ struct BottomNavigationBar: View {
                     .onTapGesture {
                         if index == 0 && selectedTab != 0 {
                             navigateToHome = true
+                        }
+                        if index == 1 { // Map tab
+                            navigateToMap = true
                         }
                         if index == 2 { // Announcement tab
                             navigateToAnnouncements = true
@@ -40,6 +44,11 @@ struct BottomNavigationBar: View {
                 }
                 .hidden()
 
+                NavigationLink(destination: NavigationMapView(), isActive: $navigateToMap) {
+                    EmptyView()
+                }
+                .hidden()
+
                 NavigationLink(destination: AnnouncementView(), isActive: $navigateToAnnouncements) {
                     EmptyView()
                 }
@@ -48,7 +57,6 @@ struct BottomNavigationBar: View {
         )
     }
 }
-
 
 // MARK: - Bottom Navigation Item
 struct BottomNavItem: View {
