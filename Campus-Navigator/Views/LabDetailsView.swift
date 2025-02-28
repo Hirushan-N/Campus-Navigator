@@ -17,11 +17,12 @@ struct LabDetailsView: View {
     @State private var isThumbsUpSelected = false
     @State private var isThumbsDownSelected = false
     @State private var navigateToSeatReservation = false
+    @State private var navigateToMap = false
 
     var body: some View {
         VStack {
             // Lab Image
-            Image("web_design_lab") // Replace with actual lab image asset name
+            Image("web_design_lab")
                 .resizable()
                 .scaledToFill()
                 .frame(height: 250)
@@ -37,15 +38,12 @@ struct LabDetailsView: View {
                     Spacer()
                     
                     Button(action: {
-                        // Navigate Action
+                        navigateToMap = true // Trigger navigation
                     }) {
                         VStack {
                             Image(systemName: "location.fill")
                                 .font(.title)
                                 .foregroundColor(.blue)
-                            Text("Navigate")
-                                .font(.caption)
-                                .foregroundColor(.black)
                         }
                     }
                 }
@@ -132,6 +130,11 @@ struct LabDetailsView: View {
             .padding()
 
             Spacer()
+            
+            NavigationLink(destination: NavigationMapView(), isActive: $navigateToMap) {
+                EmptyView()
+            }
+            .hidden()
 
             NavigationLink(destination: SeatReservationView(), isActive: $navigateToSeatReservation) {
                 EmptyView()

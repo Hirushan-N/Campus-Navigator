@@ -17,12 +17,12 @@ struct HomeView: View {
     
     let categoryItems: [String: [Item]] = [
         "Cafeterias": [
-            Item(name: "Main Cafeteria", floor: "Ground Floor", image: "main_cafeteria", isReservationEnabled: false),
-            Item(name: "Student Café", floor: "2nd floor", image: "student_cafe", isReservationEnabled: false),
-            Item(name: "Coffee Corner", floor: "1st floor", image: "coffee_corner", isReservationEnabled: false),
-            Item(name: "Snack Bar", floor: "Ground Floor", image: "snack_bar", isReservationEnabled: false),
-            Item(name: "Healthy Bites", floor: "1st floor", image: "healthy_bites", isReservationEnabled: false),
-            Item(name: "Quick Meals", floor: "3rd floor", image: "quick_meals", isReservationEnabled: false),
+            Item(name: "Main Cafeteria", floor: "Ground Floor", image: "cafe_0", isReservationEnabled: false),
+            Item(name: "Student Café", floor: "2nd floor", image: "cafe_1", isReservationEnabled: false),
+            Item(name: "Coffee Corner", floor: "1st floor", image: "cafe_2", isReservationEnabled: false),
+            Item(name: "Snack Bar", floor: "Ground Floor", image: "cafe_3", isReservationEnabled: false),
+            Item(name: "Healthy Bites", floor: "1st floor", image: "cafe_4", isReservationEnabled: false),
+            Item(name: "Quick Meals", floor: "3rd floor", image: "cafe_5", isReservationEnabled: false),
         ],
         "Labs": [
             Item(name: "Networking Lab", floor: "4th floor", image: "networking_lab", isReservationEnabled: false),
@@ -39,8 +39,8 @@ struct HomeView: View {
             Item(name: "Reading Room", floor: "2nd floor", image: "reading_room", isReservationEnabled: false),
         ],
         "Offices": [
-            Item(name: "Admin Office", floor: "1st floor", image: "admin_office", isReservationEnabled: false),
-            Item(name: "Student Affairs", floor: "2nd floor", image: "student_affairs", isReservationEnabled: false),
+            Item(name: "Admin Office", floor: "1st floor", image: "office_1", isReservationEnabled: false),
+            Item(name: "Student Affairs", floor: "2nd floor", image: "office_2", isReservationEnabled: false),
         ]
     ]
     
@@ -170,28 +170,32 @@ struct ItemCardView: View {
     let item: Item
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             Image(item.image)
                 .resizable()
                 .scaledToFill()
-                .frame(height: 120)
-                .cornerRadius(10)
+                .frame(width: 150, height: 100)
                 .clipped()
-            
+                .cornerRadius(10)
+
             Text(item.name)
                 .font(.headline)
                 .foregroundColor(.primary)
-            
+                .lineLimit(1)
+
             Text(item.floor)
                 .font(.subheadline)
                 .foregroundColor(.gray)
+                .lineLimit(1)
         }
         .padding()
+        .frame(width: 160, height: 200)
         .background(Color(.systemBackground))
         .cornerRadius(15)
         .shadow(color: Color.gray.opacity(0.15), radius: 3, x: 0, y: 2)
     }
 }
+
 
 // MARK: - Item Model
 struct Item: Identifiable {

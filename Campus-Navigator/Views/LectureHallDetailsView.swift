@@ -13,6 +13,7 @@ struct LectureHallDetailsView: View {
     @State private var selectedTab = 0
     @State private var showReviewSheet = false
     @State private var newReviewText = ""
+    @State private var navigateToMap = false
 
     struct Review: Identifiable {
         let id = UUID()
@@ -41,24 +42,27 @@ struct LectureHallDetailsView: View {
 
                 Spacer()
 
-                Button(action: {}) {
+                Button(action: {
+                    navigateToMap = true // Trigger navigation
+                }) {
                     VStack {
                         Image(systemName: "location.fill")
                             .font(.title2)
                             .foregroundColor(.blue)
-                        Text("Navigate")
-                            .font(.caption)
-                            .foregroundColor(.black)
                     }
                 }
             }
             .padding(.horizontal)
             .padding(.top, 10)
-
+            
+            NavigationLink(destination: NavigationMapView(), isActive: $navigateToMap) {
+                EmptyView()
+            }
+            .hidden()
+            
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
                     
-                    // **Lecture Hall Info Section**
                     VStack(alignment: .leading, spacing: 8) {
                         Text("**Operating Hours:** 08:30 AM - 04:00 PM")
                             .font(.subheadline)
@@ -74,7 +78,6 @@ struct LectureHallDetailsView: View {
                     .cornerRadius(12)
                     .padding(.horizontal)
 
-                    // **Student Reviews Section**
                     VStack(alignment: .leading) {
                         HStack {
                             Text("Student Reviews")
@@ -152,7 +155,6 @@ struct ReviewInputSheet: View {
 
     var body: some View {
         VStack {
-            // **Drag Indicator**
             Capsule()
                 .frame(width: 50, height: 5)
                 .foregroundColor(Color(.systemGray3))

@@ -38,20 +38,6 @@ struct NavigationMapView: View {
                                 RoundedRectangle(cornerRadius: 25)
                                     .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                             )
-
-                            // Filter Button
-                            Button(action: {
-                                // Open filter action
-                            }) {
-                                Image(systemName: "slider.horizontal.3")
-                                    .foregroundColor(.white)
-                                    .frame(width: 50, height: 50)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(Color.blue)
-                                    )
-                                    .shadow(color: Color.black.opacity(0.2), radius: 4, x: 0, y: 2)
-                            }
                         }
                         .padding(.horizontal)
 
@@ -86,7 +72,6 @@ struct NavigationMapView: View {
                     alignment: .top
                 )
 
-            BottomNavigationBar(selectedTab: $selectedTab)
         }
         .edgesIgnoringSafeArea(.bottom)
     }

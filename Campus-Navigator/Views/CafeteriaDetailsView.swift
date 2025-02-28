@@ -18,6 +18,7 @@ struct CafeteriaDetailsView: View {
     @State private var isThumbsUpSelected = false
     @State private var isThumbsDownSelected = false
     @State private var cart: [UUID: Int] = [:]
+    @State private var navigateToMap = false
 
     let weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
@@ -32,11 +33,11 @@ struct CafeteriaDetailsView: View {
     ]
 
     let dishes = [
-        Dish(name: "Chicken Curry", price: "LKR 320", rating: 4.2, image: "chicken_curry"),
-        Dish(name: "Veggie Pasta", price: "LKR 280", rating: 4.5, image: "veggie_pasta"),
-        Dish(name: "Mushroom Salad", price: "LKR 350", rating: 4.1, image: "mushroom_salad"),
-        Dish(name: "Nachos", price: "LKR 300", rating: 4.3, image: "nachos"),
-        Dish(name: "Grilled Sandwich", price: "LKR 290", rating: 4.4, image: "grilled_sandwich")
+        Dish(name: "Chicken Curry", price: "LKR 320", rating: 4.2, image: "d_1"),
+        Dish(name: "Veggie Pasta", price: "LKR 280", rating: 4.5, image: "d_2"),
+        Dish(name: "Mushroom Salad", price: "LKR 350", rating: 4.1, image: "d_3"),
+        Dish(name: "Nachos", price: "LKR 300", rating: 4.3, image: "d_44"),
+        Dish(name: "Grilled Sandwich", price: "LKR 290", rating: 4.4, image: "d_5")
     ]
 
     var body: some View {
@@ -50,6 +51,7 @@ struct CafeteriaDetailsView: View {
                 Spacer()
                 
                 Button(action: {
+                    navigateToMap = true // Trigger navigation
                 }) {
                     VStack {
                         Image(systemName: "location.fill")
@@ -59,6 +61,11 @@ struct CafeteriaDetailsView: View {
                 }
             }
             .padding(.horizontal)
+            
+            NavigationLink(destination: NavigationMapView(), isActive: $navigateToMap) {
+                EmptyView()
+            }
+            .hidden()
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
@@ -214,11 +221,12 @@ struct DishCard: View {
     @Binding var cart: [UUID: Int]
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             Image(dish.image)
                 .resizable()
                 .scaledToFill()
-                .frame(height: 120)
+                .frame(width: 150, height: 100)
+                .clipped()
                 .cornerRadius(10)
             
             HStack {
@@ -245,9 +253,14 @@ struct DishCard: View {
             Spacer()
             
             HStack {
-                Button(action: { cart[dish.id, default: 0] -= 1 }) {
+                Button(action: {
+                    if cart[dish.id, default: 0] > 0 {
+                        cart[dish.id, default: 0] -= 1
+                    }
+                }) {
                     Image(systemName: "minus.circle.fill").foregroundColor(.blue)
                 }
+
                 
                 Text("\(cart[dish.id, default: 0])").font(.subheadline)
                 
@@ -277,6 +290,10 @@ struct DishCard: View {
             }
             .shadow(radius: 3)
         }
-        .padding().background(Color.white).cornerRadius(15).shadow(radius: 4)
+        .padding()
+        .frame(width: 160, height: 300)
+        .background(Color.white)
+        .cornerRadius(15)
+        .shadow(color: Color.gray.opacity(0.15), radius: 3, x: 0, y: 2)
     }
 }

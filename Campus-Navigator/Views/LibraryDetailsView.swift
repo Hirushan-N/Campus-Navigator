@@ -17,7 +17,8 @@ struct LibraryDetailsView: View {
     @State private var isThumbsDownSelected = false
     @State private var navigateToSeatReservation = false
     @State private var selectedTab = 0
-    
+    @State private var navigateToMap = false
+
     var body: some View {
         VStack {
             ScrollView {
@@ -45,20 +46,22 @@ struct LibraryDetailsView: View {
                         Spacer()
                         
                         Button(action: {
-                            // Navigate Action
+                            navigateToMap = true // Trigger navigation
                         }) {
                             VStack {
                                 Image(systemName: "location.fill")
                                     .font(.title2)
                                     .foregroundColor(.blue)
-                                Text("Navigate")
-                                    .font(.caption)
-                                    .foregroundColor(.black)
                             }
                         }
                     }
                     .padding(.horizontal)
 
+                    NavigationLink(destination: NavigationMapView(), isActive: $navigateToMap) {
+                        EmptyView()
+                    }
+                    .hidden()
+                    
                     // Type Section
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Type")

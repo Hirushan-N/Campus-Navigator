@@ -33,7 +33,6 @@ struct SeatReservationView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            // Header
             HStack {
                 Text("Reserve My Seat")
                     .font(.title2)
@@ -62,7 +61,6 @@ struct SeatReservationView: View {
             
             Spacer()
             
-            // Bottom Navigation Bar
             BottomNavigationBar(selectedTab: .constant(0))
         }
         .edgesIgnoringSafeArea(.bottom)
@@ -71,7 +69,8 @@ struct SeatReservationView: View {
                 seat: selectedSeat,
                 remarks: $remarks,
                 contactNumber: $contactNumber,
-                seats: $seats
+                seats: $seats,
+                showSeatDetails: $showSeatDetails
             )
             .presentationDetents([.fraction(0.4)])
         }
@@ -117,7 +116,7 @@ struct GridView: View {
     @Binding var selectedSeat: Seat?
     @Binding var showSeatDetails: Bool
     
-    let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 4) // Updated for iOS grid layout
+    let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 4)
     
     var body: some View {
         LazyVGrid(columns: columns, spacing: 10) {
@@ -145,7 +144,8 @@ struct SeatDetailsBottomSheet: View {
     @Binding var remarks: String
     @Binding var contactNumber: String
     @Binding var seats: [Seat]
-    
+    @Binding var showSeatDetails: Bool
+
     var body: some View {
         VStack(spacing: 15) {
             Capsule()
@@ -173,6 +173,7 @@ struct SeatDetailsBottomSheet: View {
                         
                         Button(action: {
                             bookSeat(seat: seat)
+                            showSeatDetails = false
                         }) {
                             Text("Confirm Reservation")
                                 .frame(maxWidth: .infinity)
@@ -210,3 +211,4 @@ struct SeatDetailsBottomSheet: View {
         }
     }
 }
+

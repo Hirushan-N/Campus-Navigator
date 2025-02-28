@@ -17,6 +17,7 @@ struct OfficeDetailsView: View {
     @State private var thumbsDownCount = 2
     @State private var isThumbsUpSelected = false
     @State private var isThumbsDownSelected = false
+    @State private var navigateToMap = false
 
     let weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
@@ -49,20 +50,23 @@ struct OfficeDetailsView: View {
                 Spacer()
                 
                 Button(action: {
+                    navigateToMap = true // Trigger navigation
                 }) {
                     VStack {
                         Image(systemName: "location.fill")
                             .font(.title2)
                             .foregroundColor(.blue)
-                        Text("Navigate")
-                            .font(.caption)
-                            .foregroundColor(.black)
                     }
                 }
             }
             .padding(.horizontal)
             .padding(.top, 10)
 
+            NavigationLink(destination: NavigationMapView(), isActive: $navigateToMap) {
+                EmptyView()
+            }
+            .hidden()
+            
             HStack {
                 ForEach(weekdays, id: \.self) { day in
                     Button(action: {
