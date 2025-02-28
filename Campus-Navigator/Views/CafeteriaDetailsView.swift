@@ -101,7 +101,7 @@ struct CafeteriaDetailsView: View {
                         }
                         .font(.subheadline)
                         .padding()
-                        .background(Color.blue.opacity(0.1))
+                        .background(Color(.systemGray6).opacity(0.1))
                         .cornerRadius(10)
                     }
                     .padding(.horizontal)

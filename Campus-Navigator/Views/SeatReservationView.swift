@@ -32,10 +32,9 @@ struct SeatReservationView: View {
     ]
     
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             // Header
             HStack {
-                
                 Text("Reserve My Seat")
                     .font(.title2)
                     .fontWeight(.bold)
@@ -44,23 +43,20 @@ struct SeatReservationView: View {
             }
             .padding(.horizontal)
             
-            // Seat Status Legend
-            HStack {
+            HStack(spacing: 15) {
                 StatusIndicator(text: "Available", color: .green)
-                StatusIndicator(text: "Selected", color: .yellow)
                 StatusIndicator(text: "Booked", color: .blue)
             }
             .padding(.top, 10)
             
-            // Seat Grid
             VStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.blue.opacity(0.1))
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color(UIColor.systemGray6))
                     .overlay(
                         GridView(seats: $seats, selectedSeat: $selectedSeat, showSeatDetails: $showSeatDetails)
                             .padding()
                     )
-                    .frame(height: 300)
+                    .frame(height: 320)
             }
             .padding()
             
@@ -77,6 +73,7 @@ struct SeatReservationView: View {
                 contactNumber: $contactNumber,
                 seats: $seats
             )
+            .presentationDetents([.fraction(0.4)])
         }
     }
 }
@@ -103,11 +100,13 @@ struct StatusIndicator: View {
     
     var body: some View {
         HStack {
+            Circle()
+                .fill(color)
+                .frame(width: 12, height: 12)
+            
             Text(text)
-                .font(.footnote)
-                .padding(8)
-                .background(color.opacity(0.2))
-                .cornerRadius(8)
+                .font(.subheadline)
+                .foregroundColor(.gray)
         }
     }
 }
@@ -118,7 +117,7 @@ struct GridView: View {
     @Binding var selectedSeat: Seat?
     @Binding var showSeatDetails: Bool
     
-    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+    let columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 4) // Updated for iOS grid layout
     
     var body: some View {
         LazyVGrid(columns: columns, spacing: 10) {
@@ -129,11 +128,11 @@ struct GridView: View {
                 }) {
                     Text(seats[index].id)
                         .fontWeight(.bold)
-                        .padding()
                         .frame(width: 80, height: 40)
                         .background(seats[index].status == .available ? Color.green : (seats[index].status == .selected ? Color.yellow : Color.blue))
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .cornerRadius(10)
+                        .shadow(radius: 2)
                 }
             }
         }
@@ -148,56 +147,64 @@ struct SeatDetailsBottomSheet: View {
     @Binding var seats: [Seat]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(spacing: 15) {
+            Capsule()
+                .frame(width: 50, height: 5)
+                .foregroundColor(Color.gray.opacity(0.5))
+                .padding(.top, 8)
+
             Text("Seat Information")
                 .font(.headline)
             
             if let seat = seat {
-                Text("Selected Seat Number: **\(seat.id)**")
-                Text("Row & Column Position: **Row 2, Column 1**") // Static example
-                Text("Booking Status: **\(seat.status == .available ? "Available" : "Booked")**")
-                
-                if seat.status == .available {
-                    TextField("Enter Contact Number", text: $contactNumber)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Seat Number: **\(seat.id)**")
+                    Text("Row & Column Position: **Row 2, Column 1**") // Static example
+                    Text("Status: **\(seat.status == .available ? "Available" : "Booked")**")
                     
-                    TextField("Enter Remark", text: $remarks)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
-                    
-                    Button(action: {
-                        bookSeat(seat: seat)
-                    }) {
-                        HStack {
+                    if seat.status == .available {
+                        TextField("Enter Contact Number", text: $contactNumber)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.vertical, 5)
+                        
+                        TextField("Enter Remark", text: $remarks)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.vertical, 5)
+                        
+                        Button(action: {
+                            bookSeat(seat: seat)
+                        }) {
                             Text("Confirm Reservation")
-                                .font(.headline)
-                            Image(systemName: "checkmark.circle.fill")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                    } else {
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("Reserved By: **\(seat.reservedBy ?? "Unknown")**")
+                            Text("Contact: **\(seat.contact ?? "N/A")**")
+                            Text("Remark: **\(seat.remark ?? "No Remark")**")
+                        }
+                        .padding(.top, 8)
                     }
-                } else {
-                    Text("Reserved By: **\(seat.reservedBy ?? "Unknown")**")
-                    Text("Contact: **\(seat.contact ?? "N/A")**")
-                    Text("Remark: **\(seat.remark ?? "No Remark")**")
                 }
+                .padding(.horizontal)
             }
             
             Spacer()
         }
-        .padding()
-        .background(Color.white)
+        .padding(.bottom, 15)
+        .background(Color(UIColor.systemBackground))
         .cornerRadius(20)
+        .shadow(radius: 5)
     }
     
     private func bookSeat(seat: Seat) {
         if let index = seats.firstIndex(where: { $0.id == seat.id }) {
             seats[index].status = .booked
-            seats[index].reservedBy = "Nadeesha Hirushan"
+            seats[index].reservedBy = "Nadeesh Hirushan"
             seats[index].contact = contactNumber
             seats[index].remark = remarks
         }

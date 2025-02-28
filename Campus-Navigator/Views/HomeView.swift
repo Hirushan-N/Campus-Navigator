@@ -17,30 +17,30 @@ struct HomeView: View {
     
     let categoryItems: [String: [Item]] = [
         "Cafeterias": [
-            Item(name: "Main Cafeteria", floor: "Ground Floor", image: "main_cafeteria"),
-            Item(name: "Student Café", floor: "2nd floor", image: "student_cafe"),
-            Item(name: "Coffee Corner", floor: "1st floor", image: "coffee_corner"),
-            Item(name: "Snack Bar", floor: "Ground Floor", image: "snack_bar"),
-            Item(name: "Healthy Bites", floor: "1st floor", image: "healthy_bites"),
-            Item(name: "Quick Meals", floor: "3rd floor", image: "quick_meals")
+            Item(name: "Main Cafeteria", floor: "Ground Floor", image: "main_cafeteria", isReservationEnabled: false),
+            Item(name: "Student Café", floor: "2nd floor", image: "student_cafe", isReservationEnabled: false),
+            Item(name: "Coffee Corner", floor: "1st floor", image: "coffee_corner", isReservationEnabled: false),
+            Item(name: "Snack Bar", floor: "Ground Floor", image: "snack_bar", isReservationEnabled: false),
+            Item(name: "Healthy Bites", floor: "1st floor", image: "healthy_bites", isReservationEnabled: false),
+            Item(name: "Quick Meals", floor: "3rd floor", image: "quick_meals", isReservationEnabled: false),
         ],
         "Labs": [
-            Item(name: "Networking Lab", floor: "4th floor", image: "networking_lab"),
-            Item(name: "iOS Lab", floor: "3rd floor", image: "ios_lab"),
-            Item(name: "Web Design Lab", floor: "4th floor", image: "web_design_lab")
+            Item(name: "Networking Lab", floor: "4th floor", image: "networking_lab", isReservationEnabled: false),
+            Item(name: "iOS Lab", floor: "3rd floor", image: "ios_lab", isReservationEnabled: true),
+            Item(name: "Web Design Lab", floor: "4th floor", image: "web_design_lab", isReservationEnabled: false),
         ],
         "Lecture Halls": [
-            Item(name: "Hall A", floor: "1st floor", image: "hall_a"),
-            Item(name: "Hall B", floor: "2nd floor", image: "hall_b"),
-            Item(name: "Hall C", floor: "3rd floor", image: "hall_c")
+            Item(name: "Hall A", floor: "1st floor", image: "hall_a", isReservationEnabled: false),
+            Item(name: "Hall B", floor: "2nd floor", image: "hall_b", isReservationEnabled: false),
+            Item(name: "Hall C", floor: "3rd floor", image: "hall_c", isReservationEnabled: false),
         ],
         "Libraries": [
-            Item(name: "Main Library", floor: "1st floor", image: "main_library"),
-            Item(name: "Reading Room", floor: "2nd floor", image: "reading_room")
+            Item(name: "Main Library", floor: "1st floor", image: "main_library", isReservationEnabled: false),
+            Item(name: "Reading Room", floor: "2nd floor", image: "reading_room", isReservationEnabled: false),
         ],
         "Offices": [
-            Item(name: "Admin Office", floor: "1st floor", image: "admin_office"),
-            Item(name: "Student Affairs", floor: "2nd floor", image: "student_affairs")
+            Item(name: "Admin Office", floor: "1st floor", image: "admin_office", isReservationEnabled: false),
+            Item(name: "Student Affairs", floor: "2nd floor", image: "student_affairs", isReservationEnabled: false),
         ]
     ]
     
@@ -152,7 +152,7 @@ struct HomeView: View {
     func getCategoryDetailView(for category: String, item: Item) -> some View {
         switch category {
         case "Labs":
-            LabDetailsView(name: item.name, floor: item.floor)
+            LabDetailsView(name: item.name, floor: item.floor, isReservationEnabled:item.isReservationEnabled)
         case "Lecture Halls":
             LectureHallDetailsView(name: item.name, floor: item.floor)
         case "Libraries":
@@ -199,4 +199,5 @@ struct Item: Identifiable {
     let name: String
     let floor: String
     let image: String
+    let isReservationEnabled: Bool
 }

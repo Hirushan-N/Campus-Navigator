@@ -10,6 +10,7 @@ import SwiftUI
 struct LabDetailsView: View {
     let name: String
     let floor: String
+    let isReservationEnabled: Bool
     @State private var selectedTab = 0
     @State private var thumbsUpCount = 30
     @State private var thumbsDownCount = 2
@@ -139,7 +140,9 @@ struct LabDetailsView: View {
 
             // Reserve Seat Button
             Button(action: {
-                navigateToSeatReservation = true
+                if isReservationEnabled {
+                    navigateToSeatReservation = true
+                }
             }) {
                 HStack {
                     Text("Reserve Seat")
@@ -151,12 +154,12 @@ struct LabDetailsView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.blue)
+                .background(isReservationEnabled ? Color.blue : Color.gray)
                 .cornerRadius(10)
             }
             .padding(.horizontal)
-
-
+            .disabled(!isReservationEnabled)
+            
             Spacer().frame(height: 15)
             // Bottom Navigation Bar
             BottomNavigationBar(selectedTab: $selectedTab)
