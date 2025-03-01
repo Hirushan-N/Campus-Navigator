@@ -11,14 +11,9 @@ struct LectureHallDetailsView: View {
     let name: String
     let floor: String
     @State private var selectedTab = 0
-    @State private var selectedDay = "Mon"
-    @State private var thumbsUpCount = 30
-    @State private var thumbsDownCount = 2
-    @State private var isThumbsUpSelected = false
-    @State private var isThumbsDownSelected = false
-
     @State private var showReviewSheet = false
     @State private var newReviewText = ""
+    @State private var navigateToMap = false
 
     struct Review: Identifiable {
         let id = UUID()
@@ -42,95 +37,47 @@ struct LectureHallDetailsView: View {
         VStack {
             HStack {
                 Text(name)
-                    .font(.title)
+                    .font(.title2)
                     .fontWeight(.bold)
-                
+
                 Spacer()
-                
+
                 Button(action: {
+                    navigateToMap = true // Trigger navigation
                 }) {
                     VStack {
                         Image(systemName: "location.fill")
-                            .font(.title)
+                            .font(.title2)
                             .foregroundColor(.blue)
-                        Text("Navigate")
-                            .font(.caption)
-                            .foregroundColor(.black)
                     }
                 }
             }
             .padding(.horizontal)
+            .padding(.top, 10)
+            
+            NavigationLink(destination: NavigationMapView(), isActive: $navigateToMap) {
+                EmptyView()
+            }
+            .hidden()
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
+                    
                     VStack(alignment: .leading, spacing: 8) {
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("**Operating Hours:** 08:30 AM - 04:00 PM")
-                            Text("**Description:**")
-                            Text("The \(name) is one of the largest and most frequently used lecture halls on campus. It is designed to provide students with a comfortable and well-equipped learning environment for lectures, presentations, and seminars.")
-                        }
-                        .font(.subheadline)
-                        .padding()
-                        .background(Color.blue.opacity(0.1))
-                        .cornerRadius(10)
-                    }
-                    .padding(.horizontal)
-                    
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Low")
-                            .font(.footnote)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.blue)
-                        
-                        HStack {
-                            ProgressView(value: 0.34)
-                                .progressViewStyle(LinearProgressViewStyle(tint: Color.green))
-                                .frame(maxWidth: .infinity)
-                            
-                            Text("34%")
-                                .font(.footnote)
-                                .fontWeight(.bold)
-                                .foregroundColor(.green)
-                        }
-                        
-                        HStack {
-                            Button(action: {
-                                if !isThumbsUpSelected {
-                                    thumbsUpCount += 1
-                                    isThumbsUpSelected = true
-                                    if isThumbsDownSelected {
-                                        thumbsDownCount -= 1
-                                        isThumbsDownSelected = false
-                                    }
-                                }
-                            }) {
-                                HStack {
-                                    Image(systemName: "hand.thumbsup.fill")
-                                        .foregroundColor(isThumbsUpSelected ? .blue : .gray)
-                                    Text("\(thumbsUpCount)")
-                                }
-                            }
+                        Text("**Operating Hours:** 08:30 AM - 04:00 PM")
+                            .font(.subheadline)
+                            .foregroundColor(.black)
 
-                            Button(action: {
-                                if !isThumbsDownSelected {
-                                    thumbsDownCount += 1
-                                    isThumbsDownSelected = true
-                                    if isThumbsUpSelected {
-                                        thumbsUpCount -= 1
-                                        isThumbsUpSelected = false
-                                    }
-                                }
-                            }) {
-                                HStack {
-                                    Image(systemName: "hand.thumbsdown.fill")
-                                        .foregroundColor(isThumbsDownSelected ? .red : .gray)
-                                    Text("\(thumbsDownCount)")
-                                }
-                            }
-                        }
+                        Text("**Description:**")
+                        Text("The \(name) is one of the largest and most frequently used lecture halls on campus. It is designed to provide students with a comfortable and well-equipped learning environment for lectures, presentations, and seminars.")
+                            .font(.subheadline)
+                            .foregroundColor(.black)
                     }
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
                     .padding(.horizontal)
-                    
+
                     VStack(alignment: .leading) {
                         HStack {
                             Text("Student Reviews")
@@ -148,112 +95,125 @@ struct LectureHallDetailsView: View {
                                     .foregroundColor(.blue)
                             }
                         }
-                        
+
                         ForEach(reviews) { review in
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Image(review.profileImage)
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .clipShape(Circle())
-
-                                    VStack(alignment: .leading) {
-                                        Text(review.name)
-                                            .font(.headline)
-                                            .fontWeight(.bold)
-                                        Text("\(review.batch) - Student")
-                                            .font(.subheadline)
-                                            .foregroundColor(.gray)
-                                    }
-
-                                    Spacer()
-                                    Text(review.timestamp)
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                }
-
-                                Text(review.content)
-                                    .font(.body)
-                                    .padding(.vertical, 5)
-
-                                HStack {
-                                    Button(action: { }) {
-                                        HStack {
-                                            Image(systemName: "hand.thumbsup.fill")
-                                                .foregroundColor(.blue)
-                                            Text("\(review.thumbsUp)")
-                                        }
-                                    }
-
-                                    Button(action: { }) {
-                                        HStack {
-                                            Image(systemName: "hand.thumbsdown.fill")
-                                                .foregroundColor(.red)
-                                            Text("\(review.thumbsDown)")
-                                        }
-                                    }
-                                }
-                            }
-                            .padding()
-                            .background(Color.blue.opacity(0.1))
-                            .cornerRadius(10)
-                            .padding(.horizontal)
+                            ReviewCard(review: review)
                         }
                     }
                 }
             }
-            
+
             BottomNavigationBar(selectedTab: $selectedTab)
         }
         .sheet(isPresented: $showReviewSheet) {
-            VStack(spacing: 20) {
-                Text("Write a Review")
-                    .font(.headline)
-                    .padding(.top)
-
-                TextEditor(text: $newReviewText)
-                    .frame(height: 120)
-                    .padding(8)
-                    .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
-                    .padding(.horizontal)
-
-                HStack {
-                    Button(action: {
-                        showReviewSheet = false
-                        newReviewText = ""
-                    }) {
-                        Text("Cancel")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .foregroundColor(.black)
-                            .cornerRadius(10)
-                    }
-
-                    Button(action: {
-                        if !newReviewText.isEmpty {
-                            reviews.append(Review(name: "Anonymous", batch: "N/A", timestamp: "Just now", content: newReviewText, profileImage: "profile_default", thumbsUp: 0, thumbsDown: 0))
-                            newReviewText = ""
-                            showReviewSheet = false
-                        }
-                    }) {
-                        Text("Submit")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                    }
-                }
-                .padding(.horizontal)
-            }
-            .padding(.bottom, 20)
-            .frame(height: UIScreen.main.bounds.height / 3)
-            .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .shadow(radius: 5)
+            ReviewInputSheet(showReviewSheet: $showReviewSheet, newReviewText: $newReviewText, reviews: $reviews)
         }
+    }
+}
 
+struct ReviewCard: View {
+    let review: LectureHallDetailsView.Review
 
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Image(review.profileImage)
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+
+                VStack(alignment: .leading) {
+                    Text(review.name)
+                        .font(.headline)
+                        .fontWeight(.bold)
+                    Text("\(review.batch) - Student")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+
+                Spacer()
+                Text(review.timestamp)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+
+            Text(review.content)
+                .font(.body)
+                .padding(.vertical, 5)
+        }
+        .padding()
+        .background(Color(.systemGray6))
+        .cornerRadius(12)
+        .padding(.horizontal)
+    }
+}
+
+struct ReviewInputSheet: View {
+    @Binding var showReviewSheet: Bool
+    @Binding var newReviewText: String
+    @Binding var reviews: [LectureHallDetailsView.Review]
+
+    var body: some View {
+        VStack {
+            Capsule()
+                .frame(width: 50, height: 5)
+                .foregroundColor(Color(.systemGray3))
+                .padding(.top, 10)
+
+            Text("Write a Review")
+                .font(.headline)
+                .padding(.top, 5)
+
+            TextEditor(text: $newReviewText)
+                .frame(height: 120)
+                .padding(10)
+                .background(RoundedRectangle(cornerRadius: 10).stroke(Color.gray.opacity(0.5), lineWidth: 1))
+                .padding(.horizontal)
+
+            HStack {
+                Button(action: {
+                    showReviewSheet = false
+                    newReviewText = ""
+                }) {
+                    Text("Cancel")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color(.systemGray5))
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
+                }
+
+                Button(action: {
+                    if !newReviewText.isEmpty {
+                        reviews.append(LectureHallDetailsView.Review(
+                            name: "Anonymous",
+                            batch: "N/A",
+                            timestamp: "Just now",
+                            content: newReviewText,
+                            profileImage: "profile_default",
+                            thumbsUp: 0,
+                            thumbsDown: 0
+                        ))
+                        newReviewText = ""
+                        showReviewSheet = false
+                    }
+                }) {
+                    Text("Submit")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
+            .padding(.horizontal)
+
+            Spacer()
+        }
+        .frame(height: UIScreen.main.bounds.height * 0.35)
+        .background(Color(.systemBackground))
+        .cornerRadius(20)
+        .shadow(radius: 10)
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
