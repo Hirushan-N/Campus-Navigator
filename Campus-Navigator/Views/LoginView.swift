@@ -1,4 +1,3 @@
-// LoginView.swift
 import SwiftUI
 
 struct LoginView: View {
@@ -110,7 +109,6 @@ struct LoginView: View {
     }
 }
 
-// Custom Checkbox Toggle Style
 struct CheckboxToggleStyle: ToggleStyle {
     func makeBody(configuration: Configuration) -> some View {
         Button(action: { configuration.isOn.toggle() }) {

@@ -52,7 +52,6 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
-                // Header Section
                 HStack {
                     VStack(alignment: .leading) {
                         Text("Welcome, Hirushan!")
@@ -92,7 +91,6 @@ struct HomeView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(12)
                     
-                    // Filter Button
                     Button(action: { showFilterSheet.toggle() }) {
                         Image(systemName: "slider.horizontal.3")
                             .foregroundColor(.white)

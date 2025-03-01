@@ -41,7 +41,6 @@ struct OfficeDetailsView: View {
 
     var body: some View {
         VStack {
-            // Header Section
             HStack {
                 Text(name)
                     .font(.title2)
@@ -50,7 +49,7 @@ struct OfficeDetailsView: View {
                 Spacer()
                 
                 Button(action: {
-                    navigateToMap = true // Trigger navigation
+                    navigateToMap = true 
                 }) {
                     VStack {
                         Image(systemName: "location.fill")

@@ -12,14 +12,12 @@ struct NavigationMapView: View {
     
     var body: some View {
         VStack {
-            // Map Image (Placeholder for real map)
             Image("map_placeholder")
                 .resizable()
                 .scaledToFit()
                 .frame(maxHeight: .infinity)
                 .overlay(
                     VStack {
-                        // Search Bar
                         HStack {
                             HStack {
                                 Image(systemName: "magnifyingglass")
@@ -43,7 +41,6 @@ struct NavigationMapView: View {
 
                         Spacer()
                         
-                        // Location Info Card
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("**iOS Lab**")
@@ -55,7 +52,6 @@ struct NavigationMapView: View {
                             }
                             Spacer()
                             Button(action: {
-                                // Navigate action
                             }) {
                                 Image(systemName: "paperplane.fill")
                                     .foregroundColor(.white)

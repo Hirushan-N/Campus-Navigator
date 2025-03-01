@@ -21,7 +21,6 @@ struct LabDetailsView: View {
 
     var body: some View {
         VStack {
-            // Lab Image
             Image("web_design_lab")
                 .resizable()
                 .scaledToFill()
@@ -29,7 +28,6 @@ struct LabDetailsView: View {
                 .clipped()
             
             VStack(alignment: .leading, spacing: 12) {
-                // Lab Name & Navigate Button
                 HStack {
                     Text(name)
                         .font(.title)
@@ -38,7 +36,7 @@ struct LabDetailsView: View {
                     Spacer()
                     
                     Button(action: {
-                        navigateToMap = true // Trigger navigation
+                        navigateToMap = true
                     }) {
                         VStack {
                             Image(systemName: "location.fill")
@@ -48,7 +46,6 @@ struct LabDetailsView: View {
                     }
                 }
                 
-                // Location & Type
                 VStack(alignment: .leading, spacing: 4) {
                     Text("**Location**")
                     Text("\(floor) Floor")
@@ -59,7 +56,6 @@ struct LabDetailsView: View {
                         .font(.headline)
                 }
 
-                // Operating Hours
                 VStack(alignment: .leading, spacing: 4) {
                     Text("**Operating Hours**")
                     HStack {
@@ -72,7 +68,6 @@ struct LabDetailsView: View {
                     }
                 }
 
-                // Rating Section with Voting
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Low")
                         .font(.footnote)
@@ -141,7 +136,6 @@ struct LabDetailsView: View {
             }
             .hidden()
 
-            // Reserve Seat Button
             Button(action: {
                 if isReservationEnabled {
                     navigateToSeatReservation = true
@@ -164,7 +158,6 @@ struct LabDetailsView: View {
             .disabled(!isReservationEnabled)
             
             Spacer().frame(height: 15)
-            // Bottom Navigation Bar
             BottomNavigationBar(selectedTab: $selectedTab)
         }
         .edgesIgnoringSafeArea(.bottom)

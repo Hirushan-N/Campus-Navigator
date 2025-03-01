@@ -53,7 +53,6 @@ struct AnnouncementView: View {
     }
 }
 
-// Announcement Model
 struct Announcement: Identifiable {
     let id = UUID()
     let title: String
@@ -61,7 +60,6 @@ struct Announcement: Identifiable {
     let time: String
 }
 
-// Announcement Card View
 struct AnnouncementCard: View {
     let announcement: Announcement
 
@@ -87,7 +85,6 @@ struct AnnouncementCard: View {
             Spacer()
             
             Button(action: {
-                // Handle navigation to details
             }) {
                 Image(systemName: "arrow.right.circle.fill")
                     .resizable()

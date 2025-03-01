@@ -12,8 +12,8 @@ struct BottomNavigationBar: View {
     @State private var navigateToHome = false
     @State private var navigateToMap = false
     @State private var navigateToAnnouncements = false
-    @State private var showProfileSheet = false // ✅ State for profile sheet
-
+    @State private var showProfileSheet = false
+    
     let icons = ["house.fill", "paperplane.fill", "speaker.wave.2.fill", "person.fill"]
 
     var body: some View {
@@ -25,7 +25,7 @@ struct BottomNavigationBar: View {
                         if index == 0 { navigateToHome = true }
                         if index == 1 { navigateToMap = true }
                         if index == 2 { navigateToAnnouncements = true }
-                        if index == 3 { showProfileSheet = true } // ✅ Open profile view
+                        if index == 3 { showProfileSheet = true }
                         selectedTab = index
                     }
                 Spacer()
@@ -51,9 +51,9 @@ struct BottomNavigationBar: View {
                 .hidden()
             }
         )
-        .sheet(isPresented: $showProfileSheet) { // ✅ Show Profile Bottom Sheet
+        .sheet(isPresented: $showProfileSheet) {
             ProfileView()
-                .presentationDetents([.medium, .large]) // **iOS Standard**
+                .presentationDetents([.medium, .large])
         }
     }
 }

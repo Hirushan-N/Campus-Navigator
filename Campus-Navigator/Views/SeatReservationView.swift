@@ -159,7 +159,7 @@ struct SeatDetailsBottomSheet: View {
             if let seat = seat {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Seat Number: **\(seat.id)**")
-                    Text("Row & Column Position: **Row 2, Column 1**") // Static example
+                    Text("Row & Column Position: **Row 2, Column 1**") 
                     Text("Status: **\(seat.status == .available ? "Available" : "Booked")**")
                     
                     if seat.status == .available {

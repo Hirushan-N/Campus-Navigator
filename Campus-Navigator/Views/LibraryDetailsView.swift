@@ -24,15 +24,13 @@ struct LibraryDetailsView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
                     
-                    // Library Image
-                    Image("library_image") // Replace with actual image asset
+                    Image("library_image")
                         .resizable()
                         .scaledToFill()
                         .frame(height: 250)
                         .cornerRadius(15)
                         .padding(.horizontal)
 
-                    // Location and Navigate Button
                     HStack {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Location")
@@ -46,7 +44,7 @@ struct LibraryDetailsView: View {
                         Spacer()
                         
                         Button(action: {
-                            navigateToMap = true // Trigger navigation
+                            navigateToMap = true
                         }) {
                             VStack {
                                 Image(systemName: "location.fill")
@@ -62,7 +60,6 @@ struct LibraryDetailsView: View {
                     }
                     .hidden()
                     
-                    // Type Section
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Type")
                             .font(.headline)
@@ -73,7 +70,6 @@ struct LibraryDetailsView: View {
                     }
                     .padding(.horizontal)
                     
-                    // Operating Hours
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Operating Hours")
                             .font(.headline)
@@ -99,7 +95,6 @@ struct LibraryDetailsView: View {
                     }
                     .padding(.horizontal)
 
-                    // Crowd Level Progress Bar
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Low")
                             .font(.footnote)
@@ -119,7 +114,6 @@ struct LibraryDetailsView: View {
                     }
                     .padding(.horizontal)
 
-                    // Voting Buttons
                     HStack {
                         Button(action: {
                             if !isThumbsUpSelected {
@@ -161,13 +155,11 @@ struct LibraryDetailsView: View {
 
             Spacer()
 
-            // Hidden NavigationLink for Seat Reservation
             NavigationLink(destination: SeatReservationView(), isActive: $navigateToSeatReservation) {
                 EmptyView()
             }
             .hidden()
 
-            // Reserve Seat Button
             Button(action: {
                 navigateToSeatReservation = true
             }) {
@@ -188,7 +180,6 @@ struct LibraryDetailsView: View {
 
             Spacer().frame(height: 15)
 
-            // Bottom Navigation Bar
             BottomNavigationBar(selectedTab: $selectedTab)
         }
         .edgesIgnoringSafeArea(.bottom)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FilterView: View {
-    @Environment(\.presentationMode) var presentationMode // 🔹 To close sheet
+    @Environment(\.presentationMode) var presentationMode 
     @State private var selectedFloor = "All Floors"
     @State private var showAvailableOnly = false
 
@@ -20,7 +20,6 @@ struct FilterView: View {
                 .font(.title2)
                 .fontWeight(.bold)
 
-            // 🔹 Floor Filter (Picker)
             VStack(alignment: .leading) {
                 Text("Select Floor")
                     .font(.headline)
@@ -29,11 +28,10 @@ struct FilterView: View {
                         Text(floor)
                     }
                 }
-                .pickerStyle(MenuPickerStyle()) // 🔹 Modern Picker Style
+                .pickerStyle(MenuPickerStyle())
             }
             .padding()
 
-            // 🔹 Availability Toggle
             Toggle("Show Available Only", isOn: $showAvailableOnly)
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray.opacity(0.1)))
@@ -41,9 +39,8 @@ struct FilterView: View {
 
             Spacer()
 
-            // 🔹 Apply Filters Button
             Button(action: {
-                presentationMode.wrappedValue.dismiss() // Close Sheet
+                presentationMode.wrappedValue.dismiss()
             }) {
                 Text("Apply Filters")
                     .frame(maxWidth: .infinity)

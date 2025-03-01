@@ -42,7 +42,6 @@ struct CafeteriaDetailsView: View {
 
     var body: some View {
         VStack {
-            // Header Section
             HStack {
                 Text(name)
                     .font(.title)
@@ -51,7 +50,7 @@ struct CafeteriaDetailsView: View {
                 Spacer()
                 
                 Button(action: {
-                    navigateToMap = true // Trigger navigation
+                    navigateToMap = true
                 }) {
                     VStack {
                         Image(systemName: "location.fill")
@@ -69,7 +68,6 @@ struct CafeteriaDetailsView: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
-                    // Cafeteria Information Section
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             ForEach(weekdays, id: \.self) { day in
@@ -113,7 +111,6 @@ struct CafeteriaDetailsView: View {
                     }
                     .padding(.horizontal)
                     
-                    // Rating Section with Voting
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Low")
                             .font(.footnote)
@@ -170,7 +167,6 @@ struct CafeteriaDetailsView: View {
                     .padding(.horizontal)
                     
                     VStack(alignment: .leading) {
-                        // Title and Cart Button in Same Line
                         HStack {
                             Text("Available Dishes")
                                 .font(.title3)
@@ -187,7 +183,6 @@ struct CafeteriaDetailsView: View {
                         }
                         .padding(.horizontal)
 
-                        // Grid of Available Dishes (Next Line)
                         LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 15) {
                             ForEach(dishes) { dish in
                                 DishCard(dish: dish, cart: $cart)
@@ -199,7 +194,6 @@ struct CafeteriaDetailsView: View {
                 }
             }
             
-            // Bottom Navigation Bar
             BottomNavigationBar(selectedTab: $selectedTab)
         }
         .edgesIgnoringSafeArea(.bottom)
@@ -282,11 +276,11 @@ struct DishCard: View {
                     Image(systemName: "arrow.right.circle.fill")
                         .font(.headline)
                 }
-                .frame(maxWidth: .infinity, minHeight: 36) // Reduced height
+                .frame(maxWidth: .infinity, minHeight: 36)
                 .padding(.horizontal)
                 .background(Color.blue)
                 .foregroundColor(.white)
-                .cornerRadius(20) // Slightly adjusted for a more compact look
+                .cornerRadius(20)
             }
             .shadow(radius: 3)
         }

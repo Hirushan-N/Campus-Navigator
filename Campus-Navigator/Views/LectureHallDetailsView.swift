@@ -43,7 +43,7 @@ struct LectureHallDetailsView: View {
                 Spacer()
 
                 Button(action: {
-                    navigateToMap = true // Trigger navigation
+                    navigateToMap = true 
                 }) {
                     VStack {
                         Image(systemName: "location.fill")

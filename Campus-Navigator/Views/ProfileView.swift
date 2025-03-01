@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode
-    @State private var showLoginScreen = false // ✅ Full-screen navigation state
+    @State private var showLoginScreen = false
 
     let profileImage = "profile_pic"
     let userName = "Nadeesh Hirushan"
@@ -17,13 +17,11 @@ struct ProfileView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            // Drag Handle
             Capsule()
                 .frame(width: 40, height: 5)
                 .foregroundColor(Color.gray.opacity(0.4))
                 .padding(.top, 10)
 
-            // Profile Picture
             Image(profileImage)
                 .resizable()
                 .scaledToFill()
@@ -31,7 +29,6 @@ struct ProfileView: View {
                 .clipShape(Circle())
                 .overlay(Circle().stroke(Color.blue, lineWidth: 2))
 
-            // User Info
             VStack(spacing: 5) {
                 Text(userName)
                     .font(.title2)
@@ -43,7 +40,6 @@ struct ProfileView: View {
 
             Divider()
 
-            // Settings & Preferences
             VStack(spacing: 15) {
                 ProfileOptionRow(icon: "gearshape.fill", title: "Settings")
                 ProfileOptionRow(icon: "heart.fill", title: "Liked Items")
@@ -54,7 +50,6 @@ struct ProfileView: View {
 
             Spacer()
 
-            // Log Out Button
             Button(action: {
                 logoutUser()
             }) {
@@ -69,7 +64,6 @@ struct ProfileView: View {
             .padding(.horizontal)
             .padding(.bottom, 20)
 
-            // ✅ Full-screen cover for LoginView
             .fullScreenCover(isPresented: $showLoginScreen) {
                 LoginView()
             }
@@ -82,9 +76,9 @@ struct ProfileView: View {
 
     // MARK: - Log Out Function
     private func logoutUser() {
-        presentationMode.wrappedValue.dismiss() // Close Profile Sheet First
+        presentationMode.wrappedValue.dismiss() 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            showLoginScreen = true // ✅ Show Login Screen as Full Screen
+            showLoginScreen = true
         }
     }
 }

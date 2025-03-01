@@ -12,14 +12,12 @@ struct SplashScreenView: View {
     
     var body: some View {
         ZStack {
-            // Background Color
             Color.blue
                 .ignoresSafeArea()
 
             VStack {
                 Spacer()
 
-                // App Name with underline, perfectly centered
                 VStack(spacing: 8) {
                     Text("Campus Navigator")
                         .font(.largeTitle)
@@ -28,16 +26,15 @@ struct SplashScreenView: View {
                         .overlay(
                             Rectangle()
                                 .frame(height: 2)
-                                .offset(y: 10) // Moves underline down
+                                .offset(y: 10)
                                 .foregroundColor(.white),
                             alignment: .bottom
                         )
                 }
-                .padding(.bottom, 20) // Space below text
+                .padding(.bottom, 20)
 
                 Spacer()
                 
-                // Tagline at Bottom
                 Text("Find Exact Location of your choice")
                     .font(.footnote)
                     .foregroundColor(.white)
@@ -45,7 +42,6 @@ struct SplashScreenView: View {
             }
         }
         .onAppear {
-            // Delayed Navigation to Login Screen
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 isActive = true
             }
